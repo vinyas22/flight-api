@@ -31,10 +31,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            System.out.println("🔐 Received token: " + token);  // <--- log this
+            System.out.println("🔐 Received token: " + token);
             username = jwtUtil.extractUsername(token);
         }
-
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             User userDetails = new User(username, "", Collections.emptyList());
@@ -49,5 +48,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.equals("/") || path.equals("/favicon.ico");
     }
 }
