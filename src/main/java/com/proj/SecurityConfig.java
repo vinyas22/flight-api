@@ -22,13 +22,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/", 
-                    "/error", 
-                    "/favicon.ico", 
-                    "/auth/**", 
-                    "/api/flights/**"
-                ).permitAll()
+            		.requestMatchers("/").permitAll()
+            	    .requestMatchers("/favicon.ico").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
