@@ -57,9 +57,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.equals("/") || 
-               path.equals("/favicon.ico") || 
-               path.startsWith("/auth/") || 
-               path.equals("/error");
+        String method = request.getMethod();
+        
+        // Bypass for GET requests to root and favicon
+        if (("GET".equals(method) && "/".equals(path)) || 
+            ("GET".equals(method) && "/favicon.ico".equals(path))) {
+            return true;
+        }
+        
+        return path.startsWith("/auth/") || path.equals("/error");
     }
 }
