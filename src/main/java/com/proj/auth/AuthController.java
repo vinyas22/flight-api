@@ -41,7 +41,6 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
     if (user == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username");
     }
-
     String storedPassword = user.getPassword();
     String rawPassword = request.getPassword();
 
