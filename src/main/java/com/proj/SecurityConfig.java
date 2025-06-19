@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,40 +28,38 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // ✅ Exclude public paths from security filters entirely
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(
-            "/", "/favicon.ico", "/error", "/auth/**"
+                "/",
+                "/favicon.ico",
+                "/error",
+                "/auth/**"
+          
         );
     }
 
-    // ✅ Main security filter chain
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-          .csrf(csrf -> csrf
-              .ignoringRequestMatchers("/auth/**")
-          )
-          .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-          .authorizeHttpRequests(auth -> auth
-              .requestMatchers("/", "/favicon.ico", "/auth/**", "/error").permitAll()
-              .anyRequest().authenticated()
-          )
-          .authenticationProvider(authenticationProvider())
-          .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/auth/**")
+            )
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated()
+            )
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-
-    // ✅ BCrypt password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Authentication provider using UserDetailsService and password encoder
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -71,7 +68,6 @@ public class SecurityConfig {
         return provider;
     }
 
-    // ✅ AuthenticationManager for manual auth (e.g. login endpoint)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
