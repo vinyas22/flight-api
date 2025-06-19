@@ -41,19 +41,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/favicon.ico", "/auth/**", "/error").permitAll()
-                .anyRequest().authenticated()
-            )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+          .csrf(csrf -> csrf
+              .ignoringRequestMatchers("/auth/**")
+          )
+          .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .authorizeHttpRequests(auth -> auth
+              .requestMatchers("/", "/favicon.ico", "/auth/**", "/error").permitAll()
+              .anyRequest().authenticated()
+          )
+          .authenticationProvider(authenticationProvider())
+          .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
     // ✅ BCrypt password encoder
     @Bean
