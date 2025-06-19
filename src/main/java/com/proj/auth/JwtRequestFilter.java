@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 import java.util.Collections; // ✅ FIXED: Import this
@@ -20,6 +21,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -30,10 +33,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         System.out.println("🔍 Request Method: " + method + ", URI: " + path);
 
-        if (path.equals("/") || path.equals("/favicon.ico") || path.startsWith("/auth/") || path.equals("/error")) {
+
+        if (pathMatcher.match("/auth/**", path) || 
+            path.equals("/") || 
+            path.equals("/error") || 
+            pathMatcher.match("/api/flights/**", path)) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
         final String authHeader = request.getHeader("Authorization");
         String username = null;
