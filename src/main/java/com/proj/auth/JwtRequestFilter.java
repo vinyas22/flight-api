@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections; // ✅ FIXED: Import this
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -20,15 +21,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // Skip JWT filter for public endpoints
+
         String path = request.getRequestURI();
+        String method = request.getMethod();
+        System.out.println("🔍 Request Method: " + method + ", URI: " + path);
+
         if (path.equals("/") || path.equals("/favicon.ico") || path.startsWith("/auth/") || path.equals("/error")) {
             filterChain.doFilter(request, response);
             return;
@@ -40,16 +41,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            System.out.println("🔐 Received token: " + token);  // Log the token
-            try {
-                username = jwtUtil.extractUsername(token);
-            } catch (Exception e) {
-                System.err.println("❌ Failed to extract username: " + e.getMessage());
-            }
+            System.out.println("🔐 Received token: " + token);
+            username = jwtUtil.extractUsername(token);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+            // ✅ FIXED: Use Spring Security's User class
+            UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                    username,
+                    "", // no password needed here
+                    Collections.emptyList() // no authorities in token
+            );
+
             if (jwtUtil.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
