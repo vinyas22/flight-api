@@ -21,8 +21,19 @@ public class SecurityConfig {
     	http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/error", "/favicon.ico", "/auth/**", "/api/flights/**").permitAll()
-            .anyRequest().authenticated()
+        		.requestMatchers(
+        			    "/auth/**",
+        			    "/api/flights/**",
+        			    "/error",
+        			    "/",
+        			    "/index.html",
+        			    "/favicon.ico",
+        			    "/main.*.js",
+        			    "/polyfills.*.js",
+        			    "/runtime.*.js",
+        			    "/styles.*.css",
+        			    "/assets/**"
+        			).permitAll()            .anyRequest().authenticated()
         )
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
