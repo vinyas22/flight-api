@@ -33,14 +33,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         System.out.println("🔍 Request Method: " + method + ", URI: " + path);
 
-
-        if (pathMatcher.match("/auth/**", path) || 
-            path.equals("/") || 
-            path.equals("/error") || 
-            pathMatcher.match("/api/flights/**", path)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        if (path.equals("/") || path.equals("/error") || path.equals("/favicon.ico")
+        	    || path.startsWith("/auth") || path.startsWith("/api/flights")) {
+        	    filterChain.doFilter(request, response);
+        	    return;
+        	}
 
 
         final String authHeader = request.getHeader("Authorization");

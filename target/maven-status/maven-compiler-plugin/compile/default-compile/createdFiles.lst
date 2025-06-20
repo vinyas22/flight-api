@@ -1,9 +1,12 @@
+com\proj\controller\ErrorController.class
 com\proj\auth\UserRepository$UserRowMapper.class
 com\proj\FlightBookingApplication.class
 com\proj\auth\JwtUtil.class
 com\proj\model\BookingDetailsDTO.class
 com\proj\repository\BookingRepository$Flight.class
+com\proj\controller\HomeController.class
 com\proj\controller\EmailService.class
+com\proj\auth\CustomUserDetailsService.class
 com\proj\repository\SeatRepository$SeatRowMapper.class
 com\proj\repository\SeatRepository$Seat.class
 com\proj\auth\UserRepository.class

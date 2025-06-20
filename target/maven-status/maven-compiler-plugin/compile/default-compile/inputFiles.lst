@@ -1,5 +1,6 @@
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\AuthController.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\AuthRequest.java
+C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\CustomUserDetailsService.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\GlobalExceptionHandler.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\JwtRequestFilter.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\JwtUtil.java
@@ -8,6 +9,8 @@ C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\User.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\UserRepository.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\auth\UserService.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\controller\EmailService.java
+C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\controller\ErrorController.java
+C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\controller\HomeController.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\controller\TestController.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\CorsConfig.java
 C:\Users\vyes8\Desktop\proj-5\src\main\java\com\proj\FlightBookingApplication.java
