@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/flights")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://flight-ui.onrender.com")
 public class TestController {
 
     @Autowired
@@ -136,7 +136,7 @@ public class TestController {
 //    }
 
     // 8. Generate OTP for payment
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "https://flight-ui.onrender.com")
     @PostMapping("/payment/generate-otp")
     public ResponseEntity<String> generateOtp(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -160,7 +160,7 @@ public class TestController {
 
 
     // 9. Confirm payment using OTP and save booking
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "https://flight-ui.onrender.com")
 
     @PostMapping("/payment/confirm")
     public ResponseEntity<String> confirmPaymentAndBooking(@RequestBody PaymentConfirmationRequest request) {

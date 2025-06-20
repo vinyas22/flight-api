@@ -15,7 +15,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://flight-ui.onrender.com")
 public class AuthController {
 
     @Autowired
@@ -128,7 +128,7 @@ public ResponseEntity<?> requestPasswordReset(@RequestBody Map<String, String> r
         "INSERT INTO password_reset_tokens (username, token, expiry) VALUES (?, ?, ?)",
         username, token, expiry);
 
-    String resetLink = "http://localhost:4200/reset-password?token=" + token;
+    String resetLink = "https://flight-ui.onrender.com/reset-password?token=" + token;
 
     emailService.sendSimpleEmail(
         email,
