@@ -33,7 +33,7 @@ public class BookingRepository {
     public List<Flight> searchFlights(String origin, String destination, String date) {
         String sql = """
             SELECT flight_id, flight_name, origin, destination, departure_time, available_seats, price, arrival_time 
-            FROM updation.flights 
+            FROM defaultdb.flights 
             WHERE origin = ? AND destination = ? AND DATE(departure_time) = ?
         """;
         return jdbcTemplate.query(sql, new FlightRowMapper(), origin, destination, date);
@@ -50,7 +50,7 @@ public class BookingRepository {
         }
 
         // Fetch full flight details
-        String flightSql = "SELECT flight_name, origin, destination, departure_time, arrival_time, price FROM updation.flights WHERE flight_id = ?";
+        String flightSql = "SELECT flight_name, origin, destination, departure_time, arrival_time, price FROM defaultdb.flights WHERE flight_id = ?";
 
         List<Map<String, Object>> flightList = jdbcTemplate.queryForList(flightSql, flightId);
 
@@ -69,7 +69,7 @@ public class BookingRepository {
 
 
         // Insert passengers
-        String sql = "INSERT INTO updation.passengers " +
+        String sql = "INSERT INTO defaultdb.passengers " +
                      "(full_name, age, gender, passport_number, seat_number, user_id, flight_id, booking_date) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
 

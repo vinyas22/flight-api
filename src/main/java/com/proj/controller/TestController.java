@@ -108,7 +108,7 @@ public class TestController {
 //            return ResponseEntity.badRequest().body("Passenger list is empty.");
 //        }
 //
-//        String sql = "INSERT INTO updation.passengers (full_name, age, gender, passport_number, seat_number, user_id, flight_id, booking_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+//        String sql = "INSERT INTO defaultdb.passengers (full_name, age, gender, passport_number, seat_number, user_id, flight_id, booking_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
 //
 //        for (Passenger p : passengers) {
 //            jdbcTemplate.update(sql,
